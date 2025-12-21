@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".home.controller.MainActivity">
+    tools:context=".home.view.MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/moviesRecyclerView"
@@ -32,6 +32,7 @@
         android:text="Error loading data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/moviesRecyclerView"
         app:layout_constraintStart_toStartOf="@+id/moviesRecyclerView"

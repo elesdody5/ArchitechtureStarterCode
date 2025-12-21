@@ -2,6 +2,7 @@ package com.example.architechturestartercode.details;
 
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -9,22 +10,21 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 import com.example.architechturestartercode.R;
+import com.example.architechturestartercode.details.contractor.DetailsView;
+import com.example.architechturestartercode.details.presenter.DetailsPresenterImp;
 import com.example.architechturestartercode.model.movie.Movie;
-import com.example.architechturestartercode.network.moviedatasource.MovieService;
-import com.example.architechturestartercode.network.Network;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class DetailsActivity extends AppCompatActivity {
+public class DetailsActivity extends AppCompatActivity implements DetailsView {
 
     TextView movieIdTextView;
     TextView movieTitleTextView;
     TextView movieDescriptionTextView;
     TextView ratingTextView;
     ImageView movieImageView;
-    MovieService movieService;
+    ProgressBar progressBar;
+    TextView errorTextView;
+    DetailsPresenterImp presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,25 +35,32 @@ public class DetailsActivity extends AppCompatActivity {
         movieDescriptionTextView = findViewById(R.id.detailMovieOverviewTextView);
         ratingTextView = findViewById(R.id.detailMovieRatingTextView);
         movieImageView = findViewById(R.id.detailMoviePosterImageView);
-        movieService = Network.getInstance().getMovieService();
+        progressBar = findViewById(R.id.detailProgressBar);
+        errorTextView = findViewById(R.id.detailErrorTextView);
+
+        presenter = new DetailsPresenterImp(this);
+
         Long movieId = getIntent().getLongExtra("movieId", -1);
+        presenter.getMovieDetails(movieId);
+    }
 
-        movieService.getMovieById(movieId).enqueue(new Callback<Movie>() {
-            @Override
-            public void onResponse(Call<Movie> call, Response<Movie> response) {
-                Movie movie = response.body();
-                movieIdTextView.setText("ID: " + movie.getId());
-                movieTitleTextView.setText("Title: " + movie.getTitle());
-                movieDescriptionTextView.setText("Overview: " + movie.getOverview());
-                ratingTextView.setText("Rating: " + movie.getRating());
-                Glide.with(DetailsActivity.this).load(movie.getImageUrl()).into(movieImageView);
-            }
+    @Override
+    public void setProgressVisibility(int visibility) {
+        progressBar.setVisibility(visibility);
+    }
 
-            @Override
-            public void onFailure(Call<Movie> call, Throwable t) {
+    @Override
+    public void setErrorMessage(int visibility, String message) {
+        errorTextView.setVisibility(visibility);
+        errorTextView.setText(message);
+    }
 
-            }
-        });
-
+    @Override
+    public void displayMovieDetails(Movie movie) {
+        movieIdTextView.setText("ID: " + movie.getId());
+        movieTitleTextView.setText("Title: " + movie.getTitle());
+        movieDescriptionTextView.setText("Overview: " + movie.getOverview());
+        ratingTextView.setText("Rating: " + movie.getRating());
+        Glide.with(DetailsActivity.this).load(movie.getImageUrl()).into(movieImageView);
     }
 }

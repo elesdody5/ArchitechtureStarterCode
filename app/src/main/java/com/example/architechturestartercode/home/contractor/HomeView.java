@@ -1,4 +1,4 @@
-package com.example.architechturestartercode.home.view;
+package com.example.architechturestartercode.home.contractor;
 
 import com.example.architechturestartercode.model.movie.Movie;
 

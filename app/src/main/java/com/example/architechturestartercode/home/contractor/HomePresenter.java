@@ -1,4 +1,4 @@
-package com.example.architechturestartercode.home.presenter;
+package com.example.architechturestartercode.home.contractor;
 
 public interface HomePresenter {
     public void getMovies();
