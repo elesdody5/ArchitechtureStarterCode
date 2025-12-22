@@ -1,3 +1,18 @@
 <resources>
-    <string name="app_name">ArchitechtureStarterCode</string>
+    <string name="app_name">Starter code</string>
+    <string name="add_to_favorite">Add To Favorite</string>
+    <string name="empty" />
+    <string name="get_all_movies">Get All Movies</string>
+    <string name="get_fav_movies">Get Favorite Movies</string>
+    <string name="exit">Exit</string>
+    <string name="title_activity_fav_movies">FavMoviesActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="delete_movie">Delete Movie</string>
 </resources>
