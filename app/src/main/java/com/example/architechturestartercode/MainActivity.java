@@ -1,19 +1,49 @@
-package com.example.architechturestartercode;
+package com.example.roomdemo;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.example.architechturestartercode.R;
+
 
 public class MainActivity extends AppCompatActivity {
+
+    Button exitBtn;
+    Button allMoviesBtn;
+    Button favMoviesBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+        initUI();
+        exitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        allMoviesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                startActivity(new Intent(MainActivity.this, AllMoviesActivity.class));
+            }
+        });
+        favMoviesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                startActivity(new Intent(MainActivity.this, FavMoviesActivity.class));
+            }
+        });
     }
+
+    private void initUI() {
+        exitBtn = findViewById(R.id.btnExit);
+        allMoviesBtn = findViewById(R.id.btnGetAllMovies);
+        favMoviesBtn = findViewById(R.id.initUI);
+    }
+
 }
