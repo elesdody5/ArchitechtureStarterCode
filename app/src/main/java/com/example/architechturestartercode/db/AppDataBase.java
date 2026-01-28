@@ -6,7 +6,8 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.example.architechturestartercode.model.Movie;
+import com.example.architechturestartercode.data.movie.datasource.local.MoviesDao;
+import com.example.architechturestartercode.data.movie.model.Movie;
 
 @Database(entities = {Movie.class}, version = 1)
 public abstract class AppDataBase extends RoomDatabase {

@@ -1,4 +1,4 @@
-package com.example.architechturestartercode.model;
+package com.example.architechturestartercode.data.movie.model;
 
 
 import androidx.room.ColumnInfo;

@@ -1,4 +1,4 @@
-package com.example.architechturestartercode.model;
+package com.example.architechturestartercode.data.movie.model;
 
 import com.google.gson.annotations.SerializedName;
 
