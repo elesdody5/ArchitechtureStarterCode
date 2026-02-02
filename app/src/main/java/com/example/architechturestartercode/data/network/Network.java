@@ -1,6 +1,6 @@
-package com.example.architechturestartercode.network;
+package com.example.architechturestartercode.data.network;
 
-import com.example.architechturestartercode.datasource.movies.remote.MoviesService;
+import com.example.architechturestartercode.data.movies.datasource.movies.remote.MoviesService;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

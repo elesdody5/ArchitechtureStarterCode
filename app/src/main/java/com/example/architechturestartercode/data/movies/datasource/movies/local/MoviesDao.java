@@ -1,4 +1,4 @@
-package com.example.architechturestartercode.datasource.movies.local;
+package com.example.architechturestartercode.data.movies.datasource.movies.local;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -7,7 +7,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.example.architechturestartercode.model.Movie;
+import com.example.architechturestartercode.data.movies.model.Movie;
 
 import java.util.List;
 

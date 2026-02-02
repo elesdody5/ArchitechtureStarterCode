@@ -1,6 +1,6 @@
-package com.example.architechturestartercode.datasource.movies.remote;
+package com.example.architechturestartercode.data.movies.datasource.movies.remote;
 
-import com.example.architechturestartercode.model.Movie;
+import com.example.architechturestartercode.data.movies.model.Movie;
 
 import java.util.List;
 

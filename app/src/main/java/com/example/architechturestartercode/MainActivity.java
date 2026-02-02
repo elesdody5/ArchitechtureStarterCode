@@ -7,8 +7,8 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.architechturestartercode.allmovies.AllMoviesActivity;
-import com.example.architechturestartercode.fav.FavActivity;
+import com.example.architechturestartercode.presentation.allmovies.view.AllMoviesActivity;
+import com.example.architechturestartercode.presentation.fav.view.FavActivity;
 
 
 public class MainActivity extends AppCompatActivity {

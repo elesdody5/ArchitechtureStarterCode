@@ -1,11 +1,11 @@
-package com.example.architechturestartercode.datasource.movies.local;
+package com.example.architechturestartercode.data.movies.datasource.movies.local;
 
 import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.architechturestartercode.db.AppDatabase;
-import com.example.architechturestartercode.model.Movie;
+import com.example.architechturestartercode.data.db.AppDatabase;
+import com.example.architechturestartercode.data.movies.model.Movie;
 
 import java.util.List;
 

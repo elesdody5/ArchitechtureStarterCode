@@ -1,21 +1,23 @@
-package com.example.architechturestartercode.fav;
+package com.example.architechturestartercode.presentation.fav.view;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.architechturestartercode.R;
-import com.example.architechturestartercode.datasource.movies.local.MoviesLocalDataSource;
-import com.example.architechturestartercode.model.Movie;
+import com.example.architechturestartercode.presentation.fav.presenter.FavPresenter;
+import com.example.architechturestartercode.data.movies.model.Movie;
+import com.example.architechturestartercode.presentation.fav.presenter.FavPresenterImp;
 
 import java.util.List;
 
-public class FavActivity extends AppCompatActivity implements OnFavouriteClickListener {
+public class FavActivity extends AppCompatActivity implements OnFavouriteClickListener , FavView {
     RecyclerView favRecycler;
     FavoriteAdapter favAdapter;
-    MoviesLocalDataSource moviesLocalDataSource;
+    FavPresenter favPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +26,8 @@ public class FavActivity extends AppCompatActivity implements OnFavouriteClickLi
         favAdapter = new FavoriteAdapter(this);
         favRecycler = findViewById(R.id.rvFavMovies);
         favRecycler.setAdapter(favAdapter);
-        moviesLocalDataSource = new MoviesLocalDataSource(getApplicationContext());
-        moviesLocalDataSource.getMovies().observe(this, new Observer<List<Movie>>() {
+        favPresenter = new FavPresenterImp(getApplicationContext());
+        favPresenter.getFavMovies().observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
                 favAdapter.setList(movies);
@@ -35,6 +37,11 @@ public class FavActivity extends AppCompatActivity implements OnFavouriteClickLi
 
     @Override
     public void onClick(Movie movie) {
-        moviesLocalDataSource.deleteMovie(movie);
+        favPresenter.deleteFromFav(movie);
+    }
+
+    @Override
+    public void onMovieDeleted() {
+        Toast.makeText(this, "Movie removed from favorites", Toast.LENGTH_SHORT).show();
     }
 }

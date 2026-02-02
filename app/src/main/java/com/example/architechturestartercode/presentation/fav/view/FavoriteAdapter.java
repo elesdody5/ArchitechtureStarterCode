@@ -1,4 +1,4 @@
-package com.example.architechturestartercode.fav;
+package com.example.architechturestartercode.presentation.fav.view;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.architechturestartercode.R;
-import com.example.architechturestartercode.model.Movie;
+import com.example.architechturestartercode.data.movies.model.Movie;
 
 import java.util.List;
 

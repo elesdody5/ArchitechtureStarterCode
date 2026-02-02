@@ -1,6 +1,6 @@
-package com.example.architechturestartercode.datasource.movies.remote;
+package com.example.architechturestartercode.data.movies.datasource.movies.remote;
 
-import com.example.architechturestartercode.model.MoviesResponse;
+import com.example.architechturestartercode.data.movies.model.MoviesResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

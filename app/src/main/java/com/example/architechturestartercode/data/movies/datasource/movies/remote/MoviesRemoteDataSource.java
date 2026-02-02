@@ -1,8 +1,8 @@
-package com.example.architechturestartercode.datasource.movies.remote;
+package com.example.architechturestartercode.data.movies.datasource.movies.remote;
 
-import com.example.architechturestartercode.model.Movie;
-import com.example.architechturestartercode.model.MoviesResponse;
-import com.example.architechturestartercode.network.Network;
+import com.example.architechturestartercode.data.movies.model.Movie;
+import com.example.architechturestartercode.data.movies.model.MoviesResponse;
+import com.example.architechturestartercode.data.network.Network;
 
 import java.io.IOException;
 import java.util.List;

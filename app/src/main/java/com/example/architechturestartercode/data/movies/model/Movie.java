@@ -1,10 +1,10 @@
-package com.example.architechturestartercode.model;
+package com.example.architechturestartercode.data.movies.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.example.architechturestartercode.network.Network;
+import com.example.architechturestartercode.data.network.Network;
 import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "movies")

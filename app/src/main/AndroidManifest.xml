@@ -14,10 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RoomDemo">
         <activity
-            android:name=".fav.FavActivity"
+            android:name=".presentation.fav.view.FavActivity"
             android:exported="false" />
         <activity
-            android:name=".allmovies.AllMoviesActivity"
+            android:name=".presentation.allmovies.view.AllMoviesActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
