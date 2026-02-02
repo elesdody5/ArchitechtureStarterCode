@@ -9,9 +9,8 @@ public interface AllMoviesView {
 
     void hideLoading();
 
-    void toggleLoading(int visibility);
 
     void showMovies(List<Movie> movies);
 
-    void showError(int errorMessage);
+    void showError(String errorMessage);
 }

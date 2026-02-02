@@ -31,7 +31,7 @@ public class AllMoviesPresenterImp implements AllMoviesPresenter {
             @Override
             public void noInternet() {
                 allMoviesView.hideLoading();
-                allMoviesView.showError(R.string.no_internet);
+                allMoviesView.showError("no internet connection");
             }
 
             @Override

@@ -26,7 +26,7 @@ public class FavActivity extends AppCompatActivity implements OnFavouriteClickLi
         favAdapter = new FavoriteAdapter(this);
         favRecycler = findViewById(R.id.rvFavMovies);
         favRecycler.setAdapter(favAdapter);
-        favPresenter = new FavPresenterImp(getApplicationContext());
+        favPresenter = new FavPresenterImp(getApplicationContext(),this);
         favPresenter.getFavMovies().observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {

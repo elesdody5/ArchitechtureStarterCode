@@ -60,8 +60,8 @@ public class AllMoviesActivity extends AppCompatActivity implements OnMovieClick
     }
 
     @Override
-    public void showError(int errorMessageId) {
+    public void showError(String errorMessage) {
         errorTextView.setVisibility(VISIBLE);
-        errorTextView.setText(getString(errorMessageId));
+        errorTextView.setText(errorMessage);
     }
 }
