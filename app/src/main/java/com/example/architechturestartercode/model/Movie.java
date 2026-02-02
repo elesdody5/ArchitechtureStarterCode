@@ -1,15 +1,27 @@
 package com.example.architechturestartercode.model;
 
+import static com.example.architechturestartercode.network.Network.IMAGE_BASE_URL;
+
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = "movies")
 public class Movie {
     @SerializedName("id")
+    @ColumnInfo(name = "id")
+    @PrimaryKey
     private Long id;
-    @SerializedName("title")
+    @SerializedName("original_title")
+    @ColumnInfo(name = "title")
     private String title;
     @SerializedName("poster_path")
+    @ColumnInfo(name = "poster_url")
     private String posterUrl;
-    @SerializedName("category")
+    @SerializedName("original_language")
+    @ColumnInfo(name = "language")
     private String language;
 
     public Movie(Long id, String title, String posterUrl, String language) {
@@ -36,7 +48,7 @@ public class Movie {
     }
 
     public String getPosterUrl() {
-        return posterUrl;
+        return IMAGE_BASE_URL + posterUrl;
     }
 
     public void setPosterUrl(String posterUrl) {

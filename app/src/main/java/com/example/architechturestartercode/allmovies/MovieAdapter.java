@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.architechturestartercode.R;
 import com.example.architechturestartercode.model.Movie;
 
@@ -20,8 +21,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     private List<Movie> movieList;
 
+    private OnMovieClicked onMovieClicked;
 
-    public MovieAdapter() {
+    public MovieAdapter(OnMovieClicked onMovieClicked) {
+        this.onMovieClicked = onMovieClicked;
         this.movieList = new ArrayList<>();
     }
 
@@ -66,7 +69,17 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         public void bind(Movie movie) {
             movieTitleTextView.setText(movie.getTitle());
             movieCategoryTextView.setText(movie.getLanguage());
+            addToFavoritesButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onMovieClicked.addToFav(movie);
+                }
+            });
 
+            Glide.with(itemView)
+                    .load(movie.getPosterUrl())
+                    .centerCrop()
+                    .into(movieImageView);
 
         }
     }

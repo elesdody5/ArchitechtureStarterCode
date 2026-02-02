@@ -1,11 +1,15 @@
 package com.example.architechturestartercode.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class MovieResponse {
-    public List<Movie> products;
+    @SerializedName("results")
+    public List<Movie> results;
 
-    public MovieResponse(List<Movie> products) {
-        this.products = products;
+    public MovieResponse(List<Movie> results) {
+        this.results = results;
     }
+
 }
