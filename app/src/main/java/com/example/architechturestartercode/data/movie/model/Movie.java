@@ -1,6 +1,6 @@
-package com.example.architechturestartercode.model;
+package com.example.architechturestartercode.data.movie.model;
 
-import static com.example.architechturestartercode.network.Network.IMAGE_BASE_URL;
+import static com.example.architechturestartercode.data.network.Network.IMAGE_BASE_URL;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
