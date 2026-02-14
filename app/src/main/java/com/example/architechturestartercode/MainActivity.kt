@@ -1,51 +1,42 @@
-package com.example.architechturestartercode;
+package com.example.architechturestartercode
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.content.Intent
+import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
+import com.example.architechturestartercode.presentation.allmovies.view.AllMoviesActivity
+import com.example.architechturestartercode.presentation.favmovies.view.FavMoviesActivity
 
-import androidx.appcompat.app.AppCompatActivity;
+class MainActivity : AppCompatActivity() {
+    var exitBtn: Button? = null
+    var allMoviesBtn: Button? = null
+    var favMoviesBtn: Button? = null
 
-import com.example.architechturestartercode.presentation.allmovies.view.AllMoviesActivity;
-import com.example.architechturestartercode.presentation.favmovies.view.FavActivity;
-
-
-public class MainActivity extends AppCompatActivity {
-
-    Button exitBtn;
-    Button allMoviesBtn;
-    Button favMoviesBtn;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        initUI();
-        exitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        initUI()
+        exitBtn!!.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View?) {
+                finish()
             }
-        });
-        allMoviesBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, AllMoviesActivity.class));
+        })
+        allMoviesBtn!!.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View?) {
+                startActivity(Intent(this@MainActivity, AllMoviesActivity::class.java))
             }
-        });
-        favMoviesBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, FavActivity.class));
+        })
+        favMoviesBtn!!.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(view: View?) {
+                startActivity(Intent(this@MainActivity, FavMoviesActivity::class.java))
             }
-        });
+        })
     }
 
-    private void initUI() {
-        exitBtn = findViewById(R.id.btnExit);
-        allMoviesBtn = findViewById(R.id.btnGetAllMovies);
-        favMoviesBtn = findViewById(R.id.initUI);
+    private fun initUI() {
+        exitBtn = findViewById<Button>(R.id.btnExit)
+        allMoviesBtn = findViewById<Button>(R.id.btnGetAllMovies)
+        favMoviesBtn = findViewById<Button>(R.id.initUI)
     }
-
 }

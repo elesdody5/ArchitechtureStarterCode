@@ -1,42 +1,26 @@
-package com.example.architechturestartercode.data.movie.datasource.local;
+package com.example.architechturestartercode.data.movie.datasource.local
 
-import android.content.Context;
+import android.content.Context
+import androidx.lifecycle.LiveData
+import com.example.architechturestartercode.data.movie.model.Movie
+import com.example.architechturestartercode.db.AppDataBase
 
-import androidx.lifecycle.LiveData;
+class MoviesLocalDataSource(context: Context) {
+    private val moviesDao: MoviesDao
 
-import com.example.architechturestartercode.db.AppDataBase;
-import com.example.architechturestartercode.data.movie.model.Movie;
-
-import java.util.List;
-
-public class MoviesLocalDataSource {
-    private MoviesDao moviesDao;
-
-    public MoviesLocalDataSource(Context context) {
-        AppDataBase dataBase = AppDataBase.getInstance(context);
-        moviesDao = dataBase.moviesDao();
+    init {
+        val dataBase: AppDataBase = AppDataBase.Companion.getInstance(context)
+        moviesDao = dataBase.moviesDao()!!
     }
 
-    public void insertMovie(Movie movie) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                moviesDao.insertMovie(movie);
-            }
-        }).start();
-
+    suspend fun insertMovie(movie: Movie) {
+        moviesDao.insertMovie(movie)
     }
 
-    public void deleteMovie(Movie movie) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                moviesDao.deleteMovie(movie);
-            }
-        }).start();
+    suspend fun deleteMovie(movie: Movie) {
+        moviesDao.deleteMovie(movie)
     }
 
-    public LiveData<List<Movie>> getMovies() {
-        return moviesDao.getMovies();
-    }
+    val movies: LiveData<MutableList<Movie>>?
+        get() = moviesDao.movies
 }

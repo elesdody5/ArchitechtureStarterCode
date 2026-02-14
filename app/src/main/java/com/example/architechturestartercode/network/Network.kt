@@ -1,29 +1,30 @@
-package com.example.architechturestartercode.network;
+package com.example.architechturestartercode.network
 
-import com.example.architechturestartercode.data.movie.datasource.remote.MovieService;
+import com.example.architechturestartercode.data.movie.datasource.remote.MovieService
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+class Network private constructor()  {
+     var movieService: MovieService?
 
-public class Network {
-    public MovieService movieService;
-    public static String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500";
-    private static Network instance = null;
+    init {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://api.themoviedb.org/3/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
 
-    private Network() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://api.themoviedb.org/3/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        movieService = retrofit.create(MovieService.class);
+        movieService = retrofit.create<MovieService?>(MovieService::class.java)
     }
 
-    public static Network getInstance() {
-        if (instance == null) {
-            instance = new Network();
-        }
-        return instance;
+    companion object {
+        var IMAGE_BASE_URL: String = "https://image.tmdb.org/t/p/w500"
+        var instance: Network? = null
+            get() {
+                if (field == null) {
+                    field = Network()
+                }
+                return field
+            }
+            private set
     }
-
 }

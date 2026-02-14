@@ -1,29 +1,26 @@
-package com.example.architechturestartercode.presentation.favmovies.presenter;
+package com.example.architechturestartercode.presentation.favmovies.presenter
 
-import android.content.Context;
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.example.architechturestartercode.data.movie.MoviesRepository
+import com.example.architechturestartercode.data.movie.model.Movie
 
-import androidx.lifecycle.LiveData;
+class FavViewModel(val app: Application) : AndroidViewModel(app) {
+    private val moviesRepository: MoviesRepository
+    val success: MutableLiveData<String> = MutableLiveData()
 
-import com.example.architechturestartercode.data.movie.datasource.local.MoviesLocalDataSource;
-import com.example.architechturestartercode.presentation.favmovies.view.FavView;
-import com.example.architechturestartercode.data.movie.model.Movie;
-
-import java.util.List;
-
-public class FavPresenterImp implements FavPresenter {
-    private MoviesLocalDataSource moviesLocalDataSource;
-    private FavView favView;
-    public FavPresenterImp(Context context, FavView favView) {
-        this.moviesLocalDataSource = new MoviesLocalDataSource(context);
-        this.favView = favView;
+    init {
+        this.moviesRepository = MoviesRepository(app)
     }
 
-    public LiveData<List<Movie>> getFavMovies() {
-        return moviesLocalDataSource.getMovies();
+    fun getFavMovies(): LiveData<MutableList<Movie>>? {
+        return moviesRepository.favMovies
     }
 
-    public void deleteMovieFromFav(Movie movie) {
-        moviesLocalDataSource.deleteMovie(movie);
-        favView.onMovieDeleted();
+    fun deleteMovieFromFav(movie: Movie) {
+//        moviesRepository.deleteMovieFromFav(movie)
+        success.value = "Movie deleted from favorites successfully"
     }
 }

@@ -1,25 +1,21 @@
-package com.example.architechturestartercode.data.movie.datasource.local;
+package com.example.architechturestartercode.data.movie.datasource.local
 
-import androidx.lifecycle.LiveData;
-import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Insert;
-import androidx.room.OnConflictStrategy;
-import androidx.room.Query;
-
-import com.example.architechturestartercode.data.movie.model.Movie;
-
-import java.util.List;
+import androidx.lifecycle.LiveData
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import com.example.architechturestartercode.data.movie.model.Movie
 
 @Dao
-public interface MoviesDao {
+interface MoviesDao {
+    @Insert(onConflict = OnConflictStrategy.Companion.IGNORE)
+    suspend fun insertMovie(movie: Movie)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    void insertMovie(Movie movie);
-
-    @Query("SELECT * FROM movies")
-    LiveData<List<Movie>> getMovies();
+    @get:Query("SELECT * FROM movies")
+    val movies: LiveData<MutableList<Movie>>
 
     @Delete
-    void  deleteMovie(Movie movie);
+    suspend fun deleteMovie(movie: Movie)
 }

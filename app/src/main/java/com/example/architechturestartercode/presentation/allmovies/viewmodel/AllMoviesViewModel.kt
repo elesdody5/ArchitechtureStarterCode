@@ -1,48 +1,62 @@
-package com.example.architechturestartercode.presentation.allmovies.presenter;
+package com.example.architechturestartercode.presentation.allmovies.viewmodel
 
-import android.content.Context;
+import android.content.Context
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import com.example.architechturestartercode.data.movie.MoviesRepository
+import com.example.architechturestartercode.data.movie.model.Movie
+import kotlinx.coroutines.launch
 
-import com.example.architechturestartercode.data.movie.MoviesRepository;
-import com.example.architechturestartercode.presentation.allmovies.view.AllMoviesView;
-import com.example.architechturestartercode.data.movie.datasource.local.MoviesLocalDataSource;
-import com.example.architechturestartercode.data.movie.datasource.remote.MoviesNetworkResponse;
-import com.example.architechturestartercode.data.movie.datasource.remote.MoviesRemoteDataSource;
-import com.example.architechturestartercode.data.movie.model.Movie;
+class AllMoviesViewModel(private val moviesRepository: MoviesRepository) : ViewModel() {
 
-import java.util.List;
 
-public class AllMoviesPresenterImp implements AllMoviesPresenter {
-    private MoviesRepository moviesRepository;
-    private AllMoviesView allMoviesView;
+    //    private val moviesRepository: MoviesRepository = MoviesRepository(context)
+    private val _allMovies: MutableState<List<Movie>> = mutableStateOf(emptyList<Movie>())
+    val allMovies: State<List<Movie>>
+        get() = _allMovies
 
-    public AllMoviesPresenterImp(Context context, AllMoviesView allMoviesView) {
-        this.moviesRepository = new MoviesRepository(context);
+    var error by mutableStateOf("")
+        private set
 
-        this.allMoviesView = allMoviesView;
+    private val _isLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val isLoading: LiveData<Boolean>
+        get() = _isLoading
+
+    init {
+        getAllMovies()
     }
 
-    public void getAllMovies() {
-        moviesRepository.getAllMovies(new MoviesNetworkResponse() {
-            @Override
-            public void onSuccess(List<Movie> movies) {
-                 allMoviesView.onMoviesFetchSuccess(movies);
+    fun getAllMovies() {
+        try {
+            viewModelScope.launch {
+                _isLoading.value = true
+                val movies = moviesRepository.getAllMovies()
+                _isLoading.value = false
+                if (movies != null) _allMovies.value = movies
             }
-
-            @Override
-            public void onError(String errorMessage) {
-                allMoviesView.onMoviesFetchError(errorMessage);
-
-            }
-
-            @Override
-            public void serverError(String serverErrorMessage) {
-
-            }
-        });
-
+        } catch (e: Exception) {
+            error = e.message ?: ""
+        }
     }
 
-    public void insertMovieToFav(Movie movie) {
-        moviesRepository.insertMovieToFav(movie);
+    fun insertMovieToFav(movie: Movie) {
+        viewModelScope.launch {
+            moviesRepository.insertMovieToFav(movie)
+        }
+    }
+}
+
+class AllMoviesFactory(private val context: Context) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        val repository = MoviesRepository(context)
+        return AllMoviesViewModel(repository) as T
     }
 }

@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RoomDemo">
         <activity
-            android:name=".presentation.favmovies.view.FavActivity"
+            android:name=".presentation.favmovies.view.FavMoviesActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.allmovies.view.AllMoviesActivity"

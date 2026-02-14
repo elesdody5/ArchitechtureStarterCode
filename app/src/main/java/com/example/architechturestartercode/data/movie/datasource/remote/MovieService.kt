@@ -1,12 +1,11 @@
-package com.example.architechturestartercode.data.movie.datasource.remote;
+package com.example.architechturestartercode.data.movie.datasource.remote
 
-import com.example.architechturestartercode.data.movie.model.MoviesResponse;
+import com.example.architechturestartercode.data.movie.model.MoviesResponse
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import retrofit2.http.GET
 
-import retrofit2.Call;
-import retrofit2.http.GET;
-
-public interface MovieService {
+interface MovieService {
     @GET("discover/movie?api_key=71ddca1effa9f38a5f61afe803adb266")
-    Call<MoviesResponse> getMovies();
-
+    suspend fun movies(): MoviesResponse?
 }

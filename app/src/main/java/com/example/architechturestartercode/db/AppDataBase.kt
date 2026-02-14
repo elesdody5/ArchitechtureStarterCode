@@ -1,28 +1,29 @@
-package com.example.architechturestartercode.db;
+package com.example.architechturestartercode.db
 
-import android.content.Context;
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.Room.databaseBuilder
+import androidx.room.RoomDatabase
+import com.example.architechturestartercode.data.movie.datasource.local.MoviesDao
+import com.example.architechturestartercode.data.movie.model.Movie
 
-import androidx.room.Database;
-import androidx.room.Room;
-import androidx.room.RoomDatabase;
+@Database(entities = [Movie::class], version = 1)
+abstract class AppDataBase : RoomDatabase() {
+    abstract fun moviesDao(): MoviesDao?
 
-import com.example.architechturestartercode.data.movie.datasource.local.MoviesDao;
-import com.example.architechturestartercode.data.movie.model.Movie;
+    companion object {
+        private var instance: AppDataBase? = null
 
-@Database(entities = {Movie.class}, version = 1)
-public abstract class AppDataBase extends RoomDatabase {
-
-    public abstract MoviesDao moviesDao();
-
-    private static AppDataBase instance = null;
-
-    public static AppDataBase getInstance(Context context) {
-        if (instance == null) {
-            instance = Room.databaseBuilder(context.getApplicationContext(),
-                            AppDataBase.class,
-                            "moviesdb")
-                    .build();
+        fun getInstance(context: Context): AppDataBase {
+            if (instance == null) {
+                instance = Room.databaseBuilder(
+                    context.getApplicationContext(),
+                    AppDataBase::class.java,
+                    "moviesdb"
+                ).build()
+            }
+            return instance!!
         }
-        return instance;
     }
 }

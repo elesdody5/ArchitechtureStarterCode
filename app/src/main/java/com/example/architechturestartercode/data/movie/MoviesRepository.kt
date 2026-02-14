@@ -1,36 +1,32 @@
-package com.example.architechturestartercode.data.movie;
+package com.example.architechturestartercode.data.movie
 
-import android.content.Context;
+import android.content.Context
+import androidx.lifecycle.LiveData
+import com.example.architechturestartercode.data.movie.datasource.local.MoviesLocalDataSource
+import com.example.architechturestartercode.data.movie.datasource.remote.MoviesRemoteDataSource
+import com.example.architechturestartercode.data.movie.model.Movie
 
-import androidx.lifecycle.LiveData;
+class MoviesRepository(context: Context) {
+    private val moviesRemoteDataSource: MoviesRemoteDataSource
+    private val moviesLocalDataSource: MoviesLocalDataSource
 
-import com.example.architechturestartercode.data.movie.datasource.local.MoviesLocalDataSource;
-import com.example.architechturestartercode.data.movie.datasource.remote.MoviesNetworkResponse;
-import com.example.architechturestartercode.data.movie.datasource.remote.MoviesRemoteDataSource;
-import com.example.architechturestartercode.data.movie.model.Movie;
-
-import java.util.List;
-
-public class MoviesRepository {
-    private MoviesRemoteDataSource moviesRemoteDataSource;
-    private MoviesLocalDataSource moviesLocalDataSource;
-
-    public MoviesRepository(Context context) {
-        moviesRemoteDataSource = new MoviesRemoteDataSource();
-        moviesLocalDataSource = new MoviesLocalDataSource(context);
+    init {
+        moviesRemoteDataSource = MoviesRemoteDataSource()
+        moviesLocalDataSource = MoviesLocalDataSource(context)
     }
 
-    public void getAllMovies(MoviesNetworkResponse moviesResponse) {
-        moviesRemoteDataSource.getMovies(moviesResponse);
+    suspend fun getAllMovies(): List<Movie>? {
+        return moviesRemoteDataSource.getMovies()
     }
 
-    public LiveData<List<Movie>> getFavMovies() {
-        return moviesLocalDataSource.getMovies();
+    val favMovies: LiveData<MutableList<Movie>>?
+        get() = moviesLocalDataSource.movies
+
+    suspend fun insertMovieToFav(movie: Movie) {
+        moviesLocalDataSource.insertMovie(movie)
     }
-    public void insertMovieToFav(Movie movie) {
-        moviesLocalDataSource.insertMovie(movie);
-    }
-    public void deleteMovieFromFav(Movie movie) {
-        moviesLocalDataSource.deleteMovie(movie);
+
+    suspend fun deleteMovieFromFav(movie: Movie) {
+        moviesLocalDataSource.deleteMovie(movie)
     }
 }
