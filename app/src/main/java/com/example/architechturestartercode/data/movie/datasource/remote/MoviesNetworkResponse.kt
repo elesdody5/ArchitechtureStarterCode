@@ -1,11 +1,10 @@
-package com.example.architechturestartercode.data.movie.datasource.remote;
+package com.example.architechturestartercode.data.movie.datasource.remote
 
-import com.example.architechturestartercode.data.movie.model.Movie;
+import com.example.architechturestartercode.data.movie.model.Movie
 
-import java.util.List;
-
-public interface MoviesNetworkResponse {
-    void onSuccess(List<Movie>movies);
-    void onFailure(String errorMessage);
-    void serverError(String errorMessage);
+interface MoviesNetworkResponse {
+    fun onSuccess(movies: List<Movie>)
+    fun onFailure(errorMessage: String)
+    fun serverError(errorMessage: String)
 }
+

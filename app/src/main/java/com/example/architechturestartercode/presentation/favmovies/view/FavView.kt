@@ -1,5 +1,6 @@
-package com.example.architechturestartercode.presentation.favmovies.view;
+package com.example.architechturestartercode.presentation.favmovies.view
 
-public interface FavView {
-    void onDeleteFromFavSuccess();
+interface FavView {
+    fun onDeleteFromFavSuccess()
 }
+

@@ -1,10 +1,10 @@
-package com.example.architechturestartercode.presentation.allmovies.presenter;
+package com.example.architechturestartercode.presentation.allmovies.presenter
 
-import com.example.architechturestartercode.data.movie.model.Movie;
+import com.example.architechturestartercode.data.movie.model.Movie
 
-public interface AllMoviesPresenter {
-    void getAllMovies();
-    void addToFav(Movie movie);
-
-    void openMovieDetails(Movie movie);
+interface AllMoviesPresenter {
+    fun getAllMovies()
+    fun addToFav(movie: Movie)
+    fun openMovieDetails(movie: Movie)
 }
+

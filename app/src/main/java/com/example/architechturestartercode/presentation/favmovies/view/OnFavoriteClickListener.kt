@@ -1,7 +1,8 @@
-package com.example.architechturestartercode.presentation.favmovies.view;
+package com.example.architechturestartercode.presentation.favmovies.view
 
-import com.example.architechturestartercode.data.movie.model.Movie;
+import com.example.architechturestartercode.data.movie.model.Movie
 
-public interface OnFavoriteClickListener {
-    void deleteFromFav(Movie movie);
+interface OnFavoriteClickListener {
+    fun deleteFromFav(movie: Movie)
 }
+

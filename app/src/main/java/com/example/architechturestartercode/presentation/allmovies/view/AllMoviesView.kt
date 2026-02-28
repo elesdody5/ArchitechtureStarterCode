@@ -1,15 +1,13 @@
-package com.example.architechturestartercode.presentation.allmovies.view;
+package com.example.architechturestartercode.presentation.allmovies.view
 
-import com.example.architechturestartercode.data.movie.model.Movie;
+import com.example.architechturestartercode.data.movie.model.Movie
 
-import java.util.List;
-
-public interface AllMoviesView {
-    void showLoading();
-    void hideLoading();
-    void setMovies(List<Movie> movies);
-    void showError(String errorMessage);
-    void onAddToFavSuccess();
-
-    void navigateToDetails(Movie movie);
+interface AllMoviesView {
+    fun showLoading()
+    fun hideLoading()
+    fun setMovies(movies: List<Movie>)
+    fun showError(errorMessage: String)
+    fun onAddToFavSuccess()
+    fun navigateToDetails(movie: Movie)
 }
+

@@ -1,89 +1,69 @@
-package com.example.architechturestartercode.presentation.favmovies.view;
+package com.example.architechturestartercode.presentation.favmovies.view
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.architechturestartercode.R
+import com.example.architechturestartercode.data.movie.model.Movie
 
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
+class FavoriteAdapter(
+    private val listener: OnFavoriteClickListener
+) : RecyclerView.Adapter<FavoriteAdapter.ViewHolder>() {
 
-import com.bumptech.glide.Glide;
-import com.example.architechturestartercode.R;
-import com.example.architechturestartercode.data.movie.model.Movie;
+    private var movies: List<Movie> = ArrayList()
 
-import java.util.List;
-
-public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHolder> {
-    private List<Movie> movies;
-    private OnFavoriteClickListener listener;
-    public static final String TAG = "FavoriteAdapter";
-
-    public FavoriteAdapter(OnFavoriteClickListener _listener) {
-        this.movies = new java.util.ArrayList<>();
-        this.listener = _listener;
-        Log.i(TAG, "FavoriteAdapter: ");
+    companion object {
+        const val TAG = "FavoriteAdapter"
     }
 
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View v = layoutInflater.inflate(R.layout.item_favorite, parent, false);
-        ViewHolder viewHolder = new ViewHolder(v);
-        Log.i(TAG, "=========== onCreateViewHolder ===========");
-        return viewHolder;
+    init {
+        Log.i(TAG, "FavoriteAdapter: ")
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Movie movie = movies.get(position);
-        holder.bind(movie);
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val v = layoutInflater.inflate(R.layout.item_favorite, parent, false)
+        Log.i(TAG, "=========== onCreateViewHolder ===========")
+        return ViewHolder(v)
     }
 
-    @Override
-    public int getItemCount() {
-        return movies.size();
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val movie = movies[position]
+        holder.bind(movie)
     }
 
-    public void setList(List<Movie> updatedMovies) {
-        this.movies = updatedMovies;
-        notifyDataSetChanged();
+    override fun getItemCount(): Int = movies.size
+
+    fun setList(updatedMovies: List<Movie>) {
+        this.movies = updatedMovies
+        notifyDataSetChanged()
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView favMovieImg;
-        TextView favMovieName;
-        TextView favMovieCategory;
-        Button removeFavBtn;
-        ConstraintLayout layout;
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val favMovieImg: ImageView = itemView.findViewById(R.id.iv_fav_poster)
+        private val favMovieName: TextView = itemView.findViewById(R.id.tv_fav_name)
+        private val favMovieCategory: TextView = itemView.findViewById(R.id.tv_fav_category)
+        private val removeFavBtn: Button = itemView.findViewById(R.id.btn_fav_delete)
+        private val layout: ConstraintLayout = itemView.findViewById(R.id.constraint_fav_movie)
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            layout = itemView.findViewById(R.id.constraint_fav_movie);
-            favMovieName = itemView.findViewById(R.id.tv_fav_name);
-            favMovieCategory = itemView.findViewById(R.id.tv_fav_category);
-            removeFavBtn = itemView.findViewById(R.id.btn_fav_delete);
-            favMovieImg = itemView.findViewById(R.id.iv_fav_poster);
-        }
-
-        void bind(Movie movie) {
-            favMovieCategory.setText(movie.getTitle());
-            favMovieName.setText(movie.getLanguage());
+        fun bind(movie: Movie) {
+            favMovieCategory.text = movie.title
+            favMovieName.text = movie.language
             Glide.with(itemView)
-                    .load(movie.getPosterUrl())
-                    .centerCrop()
-                    .into(favMovieImg);
-            removeFavBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    listener.deleteFromFav(movie);
-                }
-            });
+                .load(movie.fullPosterUrl)
+                .centerCrop()
+                .into(favMovieImg)
+            removeFavBtn.setOnClickListener {
+                listener.deleteFromFav(movie)
+            }
         }
     }
 }
+

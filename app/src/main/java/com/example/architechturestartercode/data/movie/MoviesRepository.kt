@@ -1,38 +1,30 @@
-package com.example.architechturestartercode.data.movie;
+package com.example.architechturestartercode.data.movie
 
-import android.content.Context;
+import android.content.Context
+import androidx.lifecycle.LiveData
+import com.example.architechturestartercode.data.movie.datasource.local.MoviesLocalDataSource
+import com.example.architechturestartercode.data.movie.datasource.remote.MoviesNetworkResponse
+import com.example.architechturestartercode.data.movie.datasource.remote.MoviesRemoteDataSource
+import com.example.architechturestartercode.data.movie.model.Movie
 
-import androidx.lifecycle.LiveData;
+class MoviesRepository(context: Context) {
+    private val remoteDataSource = MoviesRemoteDataSource()
+    private val localDataSource = MoviesLocalDataSource(context)
 
-import com.example.architechturestartercode.data.movie.datasource.local.MoviesLocalDataSource;
-import com.example.architechturestartercode.data.movie.datasource.remote.MoviesNetworkResponse;
-import com.example.architechturestartercode.data.movie.datasource.remote.MoviesRemoteDataSource;
-import com.example.architechturestartercode.data.movie.model.Movie;
-
-import java.util.List;
-
-public class MoviesRepository {
-    MoviesRemoteDataSource remoteDataSource;
-    MoviesLocalDataSource localDataSource;
-
-    public MoviesRepository(Context context) {
-        remoteDataSource = new MoviesRemoteDataSource();
-        localDataSource = new MoviesLocalDataSource(context);
+    fun getAllMovies(response: MoviesNetworkResponse) {
+        remoteDataSource.getAllMovies(response)
     }
 
-    public void getAllMovies(MoviesNetworkResponse response) {
-        remoteDataSource.getAllMovies(response);
+    fun insertMovieToFav(movie: Movie) {
+        localDataSource.insertMovie(movie)
     }
 
-    public void insertMovieToFav(Movie movie) {
-        localDataSource.insertMovie(movie);
+    fun deleteMovieFromFav(movie: Movie) {
+        localDataSource.deleteMovie(movie)
     }
 
-    public void deleteMovieFromFav(Movie movie) {
-        localDataSource.deleteMovie(movie);
-    }
-
-    public LiveData<List<Movie>> getAllFavMovies() {
-        return localDataSource.getAllMovies();
+    fun getAllFavMovies(): LiveData<List<Movie>> {
+        return localDataSource.getAllMovies()
     }
 }
+

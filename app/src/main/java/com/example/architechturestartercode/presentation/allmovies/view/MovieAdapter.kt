@@ -1,86 +1,56 @@
-package com.example.architechturestartercode.presentation.allmovies.view;
+package com.example.architechturestartercode.presentation.allmovies.view
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.architechturestartercode.R
+import com.example.architechturestartercode.data.movie.model.Movie
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+class MovieAdapter(
+    private val onMovieClicked: OnMovieClicked
+) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
-import com.bumptech.glide.Glide;
-import com.example.architechturestartercode.R;
-import com.example.architechturestartercode.data.movie.model.Movie;
+    private var movieList: List<Movie> = ArrayList()
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
-
-    private List<Movie> movieList;
-
-    private OnMovieClicked onMovieClicked;
-
-    public MovieAdapter(OnMovieClicked onMovieClicked) {
-        this.onMovieClicked = onMovieClicked;
-        this.movieList = new ArrayList<>();
+    fun setMovieList(movieList: List<Movie>) {
+        this.movieList = movieList
+        notifyDataSetChanged()
     }
 
-    public void setMovieList(List<Movie> movieList) {
-        this.movieList = movieList;
-        notifyDataSetChanged();
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_movie, parent, false)
+        return MovieViewHolder(view)
     }
 
-    @NonNull
-    @Override
-    public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_movie, parent, false);
-        return new MovieViewHolder(view);
+    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+        val movie = movieList[position]
+        holder.bind(movie)
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
-        Movie movie = movieList.get(position);
-        holder.bind(movie);
-    }
+    override fun getItemCount(): Int = movieList.size
 
-    @Override
-    public int getItemCount() {
-        return movieList != null ? movieList.size() : 0;
-    }
+    inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val movieImageView: ImageView = itemView.findViewById(R.id.iv_poster)
+        private val movieTitleTextView: TextView = itemView.findViewById(R.id.tv_name)
+        private val movieCategoryTextView: TextView = itemView.findViewById(R.id.tv_category)
+        private val addToFavoritesButton: Button = itemView.findViewById(R.id.btn_addToFav)
 
-    class MovieViewHolder extends RecyclerView.ViewHolder {
-        private ImageView movieImageView;
-        private TextView movieTitleTextView;
-        private TextView movieCategoryTextView;
-        private Button addToFavoritesButton;
-
-        public MovieViewHolder(@NonNull View itemView) {
-            super(itemView);
-            movieImageView = itemView.findViewById(R.id.iv_poster);
-            movieTitleTextView = itemView.findViewById(R.id.tv_name);
-            movieCategoryTextView = itemView.findViewById(R.id.tv_category);
-            addToFavoritesButton = itemView.findViewById(R.id.btn_addToFav);
-        }
-
-        public void bind(Movie movie) {
-            movieTitleTextView.setText(movie.getTitle());
-            movieCategoryTextView.setText(movie.getLanguage());
-            addToFavoritesButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onMovieClicked.addToFav(movie);
-                }
-            });
-
+        fun bind(movie: Movie) {
+            movieTitleTextView.text = movie.title
+            movieCategoryTextView.text = movie.language
+            addToFavoritesButton.setOnClickListener {
+                onMovieClicked.addToFav(movie)
+            }
             Glide.with(itemView)
-                    .load(movie.getPosterUrl())
-                    .centerCrop()
-                    .into(movieImageView);
-
+                .load(movie.fullPosterUrl)
+                .centerCrop()
+                .into(movieImageView)
         }
     }
 }
