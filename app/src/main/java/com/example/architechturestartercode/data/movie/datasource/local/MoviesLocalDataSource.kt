@@ -8,12 +8,12 @@ import com.example.architechturestartercode.data.movie.model.Movie
 class MoviesLocalDataSource(context: Context) {
     private val moviesDao: MoviesDao = AppDatabase.getInstance(context).moviesDao()
 
-    fun insertMovie(movie: Movie) {
-        Thread { moviesDao.insertMovies(movie) }.start()
+    suspend fun insertMovie(movie: Movie) {
+       moviesDao.insertMovies(movie)
     }
 
-    fun deleteMovie(movie: Movie) {
-        Thread { moviesDao.deleteMovies(movie) }.start()
+    suspend fun deleteMovie(movie: Movie) {
+        moviesDao.deleteMovies(movie)
     }
 
     fun getAllMovies(): LiveData<List<Movie>> {

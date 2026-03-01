@@ -11,10 +11,10 @@ import com.example.architechturestartercode.data.movie.model.Movie
 @Dao
 interface MoviesDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun insertMovies(movie: Movie)
+    suspend fun insertMovies(movie: Movie)
 
     @Delete
-    fun deleteMovies(movie: Movie)
+    suspend fun deleteMovies(movie: Movie)
 
     @Query("SELECT * FROM movies")
     fun getAllMovies(): LiveData<List<Movie>>

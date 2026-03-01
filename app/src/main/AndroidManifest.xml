@@ -15,10 +15,14 @@
         android:theme="@style/Theme.RoomDemo">
         <activity
             android:name=".presentation.favmovies.view.FavActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="@string/title_activity_fav"
+            android:theme="@style/Theme.RoomDemo" />
         <activity
             android:name=".presentation.allmovies.view.AllMoviesActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="@string/title_activity_all_movies"
+            android:theme="@style/Theme.RoomDemo" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
