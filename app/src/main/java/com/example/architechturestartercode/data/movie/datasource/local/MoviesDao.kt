@@ -6,17 +6,17 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.architechturestartercode.data.movie.model.Movie
+import com.example.architechturestartercode.data.movie.model.RemoteMovieResponse
 
 @Dao
 interface MoviesDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    suspend fun insertMovies(movie: Movie)
+    suspend fun insertMovies(remoteMovieResponse: RemoteMovieResponse)
 
     @Delete
-    suspend fun deleteMovies(movie: Movie)
+    suspend fun deleteMovies(remoteMovieResponse: RemoteMovieResponse)
 
     @Query("SELECT * FROM movies")
-    fun getAllMovies(): LiveData<List<Movie>>
+    fun getAllMovies(): LiveData<List<RemoteMovieResponse>>
 }
 

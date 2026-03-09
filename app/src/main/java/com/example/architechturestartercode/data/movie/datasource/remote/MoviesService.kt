@@ -1,9 +1,6 @@
 package com.example.architechturestartercode.data.movie.datasource.remote
 
-import com.example.architechturestartercode.data.movie.model.Movie
 import com.example.architechturestartercode.data.movie.model.MovieResponse
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import retrofit2.Response
 import retrofit2.http.GET
 

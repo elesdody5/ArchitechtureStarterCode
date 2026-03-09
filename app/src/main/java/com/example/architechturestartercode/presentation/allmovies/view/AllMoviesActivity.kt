@@ -38,7 +38,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,8 +52,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.example.architechturestartercode.data.movie.model.Movie
+import com.example.architechturestartercode.domin.moive.model.Movie
 import com.example.architechturestartercode.presentation.allmovies.presenter.AllMoviesViewModel
+import com.example.architechturestartercode.presentation.allmovies.presenter.state.AllMoviesAction
 import com.example.architechturestartercode.presentation.allmovies.view.ui.theme.ArchitechtureStarterCodeTheme
 
 class AllMoviesActivity : ComponentActivity() {
@@ -63,6 +64,22 @@ class AllMoviesActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val viewModel: AllMoviesViewModel = viewModel()
+            LaunchedEffect(Unit) {
+                viewModel.event.collect {
+                    when (it) {
+                        is AllMoviesAction.AddToFav -> {
+                            Toast.makeText(
+                                this@AllMoviesActivity,
+                                "${it.movie.title} added to favorites",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
+                        else -> {}
+                    }
+                }
+
+            }
             ArchitechtureStarterCodeTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
@@ -84,10 +101,10 @@ class AllMoviesActivity : ComponentActivity() {
                 ) { innerPadding ->
                     AllMoviesScreen(
                         modifier = Modifier.padding(innerPadding),
-                        movies = viewModel.allMovies.value,
-                        isLoading = viewModel.isLoading.observeAsState().value ?: false,
-                        error = viewModel.error.observeAsState().value ?: "",
-                        addToFav = { viewModel.addToFav(it) }
+                        movies = viewModel.state.movies,
+                        isLoading = viewModel.state.isLoading,
+                        error = viewModel.state.error,
+                        addToFav = { viewModel.reduce(AllMoviesAction.AddToFav(it)) }
                     )
                 }
             }
@@ -195,7 +212,11 @@ fun AllMoviesScreen(
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun MovieItem(movie: Movie, buttonLabel: String = "Favorite", onClick: (Movie) -> Unit) {
+fun MovieItem(
+    movie: Movie,
+    buttonLabel: String = "Favorite",
+    onClick: (Movie) -> Unit,
+) {
     val context = LocalContext.current
     Card(
         modifier = Modifier
@@ -213,7 +234,7 @@ fun MovieItem(movie: Movie, buttonLabel: String = "Favorite", onClick: (Movie) -
         ) {
             // Poster image with rounded corners
             GlideImage(
-                model = movie.fullPosterUrl,
+                model = movie.posterUrl,
                 contentDescription = movie.title,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -256,11 +277,7 @@ fun MovieItem(movie: Movie, buttonLabel: String = "Favorite", onClick: (Movie) -
                 Button(
                     onClick = {
                         onClick(movie)
-                        Toast.makeText(
-                            context,
-                            "${movie.title} $buttonLabel",
-                            Toast.LENGTH_SHORT
-                        ).show()
+
                     },
                     shape = RoundedCornerShape(50),
                     colors = ButtonDefaults.buttonColors(

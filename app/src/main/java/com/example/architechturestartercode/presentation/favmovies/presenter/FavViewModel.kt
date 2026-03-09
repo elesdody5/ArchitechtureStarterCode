@@ -5,11 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.architechturestartercode.data.movie.MoviesRepository
-import com.example.architechturestartercode.data.movie.model.Movie
+import com.example.architechturestartercode.data.movie.MoviesRepositoryImp
+import com.example.architechturestartercode.data.movie.model.RemoteMovieResponse
+import com.example.architechturestartercode.domin.moive.model.Movie
 import kotlinx.coroutines.launch
 
-class FavViewModel(private val moviesRepository: MoviesRepository) : ViewModel() {
+class FavViewModel(private val moviesRepository: MoviesRepositoryImp) : ViewModel() {
 
     val deletedSuccess = MutableLiveData<Boolean>()
     fun getFavMovies(): LiveData<List<Movie>> {
@@ -25,7 +26,7 @@ class FavViewModel(private val moviesRepository: MoviesRepository) : ViewModel()
 }
 
 class FavViewModelFactory(
-    private val moviesRepository: MoviesRepository,
+    private val moviesRepository: MoviesRepositoryImp,
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return FavViewModel(moviesRepository) as T

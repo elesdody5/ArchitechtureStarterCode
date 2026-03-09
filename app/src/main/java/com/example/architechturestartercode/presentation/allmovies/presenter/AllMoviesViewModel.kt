@@ -1,60 +1,63 @@
 package com.example.architechturestartercode.presentation.allmovies.presenter
 
 import android.app.Application
-import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.architechturestartercode.data.movie.MoviesRepository
-import com.example.architechturestartercode.data.movie.model.Movie
+import com.example.architechturestartercode.data.movie.MoviesRepositoryImp
+import com.example.architechturestartercode.domin.moive.model.Movie
+import com.example.architechturestartercode.domin.moive.usecase.GetAllMoviesUseCase
+import com.example.architechturestartercode.presentation.allmovies.presenter.state.AllMoviesAction
+import com.example.architechturestartercode.presentation.allmovies.presenter.state.AllMoviesEvent
+import com.example.architechturestartercode.presentation.allmovies.presenter.state.AllMoviesScreenState
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
 class AllMoviesViewModel(val app: Application) : AndroidViewModel(app) {
 
-    private val moviesRepository = MoviesRepository(app)
+    private val getAllMoviesUseCase: GetAllMoviesUseCase =
+        GetAllMoviesUseCase(MoviesRepositoryImp(app))
 
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean>
-        get() = _isLoading
+    var state by mutableStateOf(AllMoviesScreenState())
+        private set
 
-    private val _allMovies = mutableStateOf(emptyList<Movie>())
-    val allMovies: State<List<Movie>>
-        get() = _allMovies
-
-    private val _error = MutableLiveData<String>()
-    val error: LiveData<String>
-        get() = _error
-
-    private val _addSuccess = MutableLiveData<Boolean>()
-    val addSuccess: LiveData<Boolean>
-        get() = _addSuccess
+    private val _event = MutableSharedFlow<AllMoviesEvent>()
+    val event: SharedFlow<AllMoviesEvent>
+        get() = _event
 
 
     init {
         getAllMovies()
     }
 
-    fun getAllMovies() {
+    fun reduce(action: AllMoviesAction) {
+        when (action) {
+            is AllMoviesAction.AddToFav -> addToFav(action.movie)
+            AllMoviesAction.Refresh -> getAllMovies()
+        }
+
+    }
+
+    private fun getAllMovies() {
         viewModelScope.launch {
             try {
-                _isLoading.value = true
-                val movies = moviesRepository.getAllMovies()
-                _isLoading.value = false
-                _allMovies.value = movies
+                state = state.copy(isLoading = true, error = null)
+                val movies = getAllMoviesUseCase()
+                state = state.copy(movies = movies, isLoading = false)
             } catch (ex: Exception) {
-                _isLoading.value = false
-                _error.value = ex.message
+                state = state.copy(isLoading = false, error = ex.message)
             }
         }
 
     }
 
-    fun addToFav(movie: Movie) {
+    private fun addToFav(Movie: Movie) {
         viewModelScope.launch {
-            moviesRepository.insertMovieToFav(movie)
-            _addSuccess.value = true
+//            moviesRepository.insertMovieToFav(Movie)
+            _event.emit(AllMoviesEvent.ShowToast("Added to fav"))
         }
     }
 

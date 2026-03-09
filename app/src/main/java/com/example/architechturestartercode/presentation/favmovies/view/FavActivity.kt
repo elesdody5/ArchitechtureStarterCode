@@ -33,8 +33,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.architechturestartercode.data.movie.MoviesRepository
-import com.example.architechturestartercode.data.movie.model.Movie
+import com.example.architechturestartercode.data.movie.MoviesRepositoryImp
+import com.example.architechturestartercode.domin.moive.model.Movie
 import com.example.architechturestartercode.presentation.allmovies.view.MovieItem
 import com.example.architechturestartercode.presentation.favmovies.presenter.FavViewModel
 import com.example.architechturestartercode.presentation.favmovies.presenter.FavViewModelFactory
@@ -46,7 +46,7 @@ class FavActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val repository = MoviesRepository(application)
+            val repository = MoviesRepositoryImp(application)
             val viewModel: FavViewModel = viewModel(factory = FavViewModelFactory(repository))
             ArchitechtureStarterCodeTheme {
                 Scaffold(
@@ -69,7 +69,7 @@ class FavActivity : ComponentActivity() {
                 ) { innerPadding ->
                     FavMoviesScreen(
                         modifier = Modifier.padding(innerPadding),
-                        movies = viewModel.getFavMovies().observeAsState().value ?: emptyList(),
+                        movie = viewModel.getFavMovies().observeAsState().value ?: emptyList(),
                         delete = { viewModel.deleteFavMovie(it) }
                     )
                 }
@@ -81,13 +81,13 @@ class FavActivity : ComponentActivity() {
 @Composable
 fun FavMoviesScreen(
     modifier: Modifier = Modifier,
-    movies: List<Movie>,
+    movie: List<Movie>,
     delete: (Movie) -> Unit,
 ) {
     Box(
         modifier = modifier.fillMaxSize()
     ) {
-        if (movies.isEmpty()) {
+        if (movie.isEmpty()) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -119,7 +119,7 @@ fun FavMoviesScreen(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
                 contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
             ) {
-                items(movies) { movie ->
+                items(movie) { movie ->
                     MovieItem(
                         movie = movie,
                         buttonLabel = "Remove",
