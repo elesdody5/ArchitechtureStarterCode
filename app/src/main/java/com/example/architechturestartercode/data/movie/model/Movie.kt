@@ -3,8 +3,8 @@ package com.example.architechturestartercode.data.movie.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.architechturestartercode.data.network.Network
 import com.google.gson.annotations.SerializedName
+const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500"
 
 @Entity(tableName = "movies")
 data class Movie(
@@ -26,6 +26,6 @@ data class Movie(
     var language: String
 ) {
     val fullPosterUrl: String
-        get() = Network.IMAGE_BASE_URL + posterUrl
+        get() = IMAGE_BASE_URL + posterUrl
 }
 

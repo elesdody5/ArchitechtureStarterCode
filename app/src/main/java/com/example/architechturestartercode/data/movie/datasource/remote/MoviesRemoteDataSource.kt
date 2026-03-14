@@ -1,10 +1,9 @@
 package com.example.architechturestartercode.data.movie.datasource.remote
 
 import com.example.architechturestartercode.data.movie.model.Movie
-import com.example.architechturestartercode.data.network.Network
 
-class MoviesRemoteDataSource {
-    private val moviesService: MoviesService = Network.moviesService
+class MoviesRemoteDataSource(private val moviesService: MoviesService) {
+
 
     suspend fun getAllMovies(): Result<List<Movie>> {
         val response = moviesService.getMovies()

@@ -15,7 +15,6 @@ import kotlinx.coroutines.launch
 
 class AllMoviesViewModel(val moviesRepository: MoviesRepository) : ViewModel() {
 
-//    private val moviesRepository = MoviesRepository(app)
 
     var isLoading by mutableStateOf(false)
         private set

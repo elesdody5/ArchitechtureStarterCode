@@ -52,7 +52,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.example.architechturestartercode.data.movie.MoviesRepository
+import com.example.architechturestartercode.MoviesApp
 import com.example.architechturestartercode.data.movie.model.Movie
 import com.example.architechturestartercode.presentation.allmovies.presenter.AllMoviesViewModel
 import com.example.architechturestartercode.presentation.allmovies.presenter.AllMoviesViewModelFactory
@@ -83,7 +83,8 @@ class AllMoviesActivity : ComponentActivity() {
                         )
                     }
                 ) { innerPadding ->
-                    val factory = AllMoviesViewModelFactory(MoviesRepository(application))
+                    val appContainer = (application as MoviesApp).appContainer
+                    val factory = AllMoviesViewModelFactory(appContainer.moviesRepository)
                     val viewModel = viewModel<AllMoviesViewModel>(factory = factory)
                     AllMoviesScreen(
                         movies = viewModel.allMovies.value,
