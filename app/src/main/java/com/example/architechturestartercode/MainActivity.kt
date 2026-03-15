@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.example.architechturestartercode.presentation.allmovies.view.AllMoviesActivity
+import com.example.architechturestartercode.presentation.allmovies.ui.AllMoviesActivity
 import com.example.architechturestartercode.presentation.favmovies.view.FavActivity
 
 class MainActivity : AppCompatActivity() {

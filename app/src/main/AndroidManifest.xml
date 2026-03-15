@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RoomDemo">
         <activity
-            android:name=".presentation.allmovies.view.AllMoviesActivity"
+            android:name=".presentation.allmovies.ui.AllMoviesActivity"
             android:exported="false"
             android:label="@string/title_activity_all_movies"
             android:theme="@style/Theme.RoomDemo" />

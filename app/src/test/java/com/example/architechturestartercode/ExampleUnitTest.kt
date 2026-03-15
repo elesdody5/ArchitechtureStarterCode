@@ -1,5 +1,6 @@
 package com.example.architechturestartercode
 
+import com.example.architechturestartercode.presentation.allmovies.presenter.AllMoviesViewModel
 import org.junit.Test
 import org.junit.Assert.*
 

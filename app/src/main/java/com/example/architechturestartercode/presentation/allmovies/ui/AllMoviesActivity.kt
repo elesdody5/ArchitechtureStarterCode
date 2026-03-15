@@ -1,4 +1,4 @@
-package com.example.architechturestartercode.presentation.allmovies.view
+package com.example.architechturestartercode.presentation.allmovies.ui
 
 import android.os.Bundle
 import android.widget.Toast
@@ -9,6 +9,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -49,17 +50,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.example.architechturestartercode.MoviesApp
 import com.example.architechturestartercode.data.movie.model.Movie
 import com.example.architechturestartercode.presentation.allmovies.presenter.AllMoviesViewModel
-import com.example.architechturestartercode.presentation.allmovies.presenter.AllMoviesViewModelFactory
 import com.example.architechturestartercode.presentation.allmovies.ui.ui.theme.ArchitechtureStarterCodeTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
+@OptIn(ExperimentalMaterial3Api::class)
 class AllMoviesActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3Api::class)
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -83,9 +86,7 @@ class AllMoviesActivity : ComponentActivity() {
                         )
                     }
                 ) { innerPadding ->
-                    val appContainer = (application as MoviesApp).appContainer
-                    val factory = AllMoviesViewModelFactory(appContainer.moviesRepository)
-                    val viewModel = viewModel<AllMoviesViewModel>(factory = factory)
+                    val viewModel = hiltViewModel<AllMoviesViewModel>()
                     AllMoviesScreen(
                         movies = viewModel.allMovies.value,
                         isLoading = viewModel.isLoading,
@@ -180,7 +181,7 @@ fun AllMoviesScreen(
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(4.dp),
-                    contentPadding = androidx.compose.foundation.layout.PaddingValues(
+                    contentPadding = PaddingValues(
                         horizontal = 12.dp,
                         vertical = 8.dp
                     )
@@ -269,7 +270,7 @@ fun MovieItem(movie: Movie, buttonLabel: String = "Favorite", onClick: (Movie) -
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.primary
                     ),
-                    contentPadding = androidx.compose.foundation.layout.PaddingValues(
+                    contentPadding = PaddingValues(
                         horizontal = 16.dp,
                         vertical = 8.dp
                     )

@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.architechturestartercode.data.movie.model.Movie
 import com.example.architechturestartercode.presentation.allmovies.ui.ui.theme.ArchitechtureStarterCodeTheme
-import com.example.architechturestartercode.presentation.allmovies.view.MovieItem
+import com.example.architechturestartercode.presentation.allmovies.ui.MovieItem
 import com.example.architechturestartercode.presentation.favmovies.presenter.FavViewModel
 
 class FavActivity : ComponentActivity() {

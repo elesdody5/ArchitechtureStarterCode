@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
+    id("com.google.dagger.hilt.android")
     alias(libs.plugins.kotlin.compose)
 }
 
@@ -76,4 +77,9 @@ dependencies {
     implementation ("com.github.bumptech.glide:compose:1.0.0-beta01")
     val compose_version = "1.0.0"
     implementation ("androidx.compose.runtime:runtime-livedata:$compose_version")
+
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    ksp("com.google.dagger:hilt-android-compiler:2.51.1")
+    //Hilt for compose-Navigation
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 }

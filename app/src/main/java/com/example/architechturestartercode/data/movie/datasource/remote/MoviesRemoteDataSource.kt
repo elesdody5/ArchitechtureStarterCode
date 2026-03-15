@@ -1,11 +1,13 @@
 package com.example.architechturestartercode.data.movie.datasource.remote
 
 import com.example.architechturestartercode.data.movie.model.Movie
+import javax.inject.Inject
 
-class MoviesRemoteDataSource(private val moviesService: MoviesService) {
+class MoviesRemoteDataSource @Inject constructor(private val moviesService: MoviesService) :
+    IMoviesRemoteDataSource {
 
 
-    suspend fun getAllMovies(): Result<List<Movie>> {
+    override suspend fun getAllMovies(): Result<List<Movie>> {
         val response = moviesService.getMovies()
         if (response.isSuccessful) {
             val movies = response.body()?.results ?: emptyList()

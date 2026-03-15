@@ -1,18 +1,16 @@
 package com.example.architechturestartercode.presentation.favmovies.presenter
 
-import android.app.Application
-import androidx.core.R
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.architechturestartercode.data.movie.MoviesRepository
+import com.example.architechturestartercode.data.movie.MoviesRepositoryImp
 import com.example.architechturestartercode.data.movie.model.Movie
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class FavViewModel(private val app: Application) : AndroidViewModel(app) {
+class FavViewModel @Inject constructor(private val moviesRepository: MoviesRepositoryImp) : ViewModel() {
 
-    private val moviesRepository = MoviesRepository(app)
     private val _onDeleteFromFavSuccess = MutableLiveData<Boolean>()
     val onDeleteFromFavSuccess: LiveData<Boolean>
         get() = _onDeleteFromFavSuccess

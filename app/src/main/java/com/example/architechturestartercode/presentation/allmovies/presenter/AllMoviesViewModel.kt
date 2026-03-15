@@ -7,13 +7,21 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.architechturestartercode.data.movie.MoviesRepository
+import com.example.architechturestartercode.data.movie.IMoviesRepository
 import com.example.architechturestartercode.data.movie.model.Movie
+import com.example.architechturestartercode.di.DefaultDispatcher
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AllMoviesViewModel(val moviesRepository: MoviesRepository) : ViewModel() {
+@HiltViewModel
+class AllMoviesViewModel @Inject constructor(
+    private val moviesRepository: IMoviesRepository,
+    @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
+) : ViewModel() {
 
 
     var isLoading by mutableStateOf(false)
@@ -40,7 +48,7 @@ class AllMoviesViewModel(val moviesRepository: MoviesRepository) : ViewModel() {
         viewModelScope.launch {
             val result = moviesRepository.getAllMovies()
             result.onSuccess {
-                isLoading= false
+                isLoading = false
                 _allMovies.value = it
             }.onFailure {
                 isLoading = false
@@ -63,10 +71,4 @@ class AllMoviesViewModel(val moviesRepository: MoviesRepository) : ViewModel() {
 
 }
 
-@Suppress("UNCHECKED_CAST")
-class AllMoviesViewModelFactory(val repo: MoviesRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return AllMoviesViewModel(repo) as T
-    }
-}
 
