@@ -32,7 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.architechturestartercode.data.movie.model.Movie
+import com.example.architechturestartercode.data.movie.datasource.remote.model.RemoteMovie
 import com.example.architechturestartercode.presentation.allmovies.ui.ui.theme.ArchitechtureStarterCodeTheme
 import com.example.architechturestartercode.presentation.allmovies.ui.MovieItem
 import com.example.architechturestartercode.presentation.favmovies.presenter.FavViewModel
@@ -64,7 +64,7 @@ class FavActivity : ComponentActivity() {
                 ) { innerPadding ->
                     val viewModel = viewModel<FavViewModel>()
                     FavMoviesScreen(
-                        movies = viewModel.getFavMovies().observeAsState().value ?: emptyList(),
+                        remoteMovies = viewModel.getFavMovies().observeAsState().value ?: emptyList(),
                         delete = { viewModel.deleteFavMovie(it) }
                     )
                 }
@@ -76,13 +76,13 @@ class FavActivity : ComponentActivity() {
 @Composable
 fun FavMoviesScreen(
     modifier: Modifier = Modifier,
-    movies: List<Movie>,
-    delete: (Movie) -> Unit,
+    remoteMovies: List<RemoteMovie>,
+    delete: (RemoteMovie) -> Unit,
 ) {
     Box(
         modifier = modifier.fillMaxSize()
     ) {
-        if (movies.isEmpty()) {
+        if (remoteMovies.isEmpty()) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -114,9 +114,9 @@ fun FavMoviesScreen(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
                 contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
             ) {
-                items(movies) { movie ->
+                items(remoteMovies) { movie ->
                     MovieItem(
-                        movie = movie,
+                        remoteMovie = movie,
                         buttonLabel = "Remove",
                         onClick = { delete(movie) }
                     )

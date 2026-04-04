@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.architechturestartercode.data.movie.MoviesRepositoryImp
-import com.example.architechturestartercode.data.movie.model.Movie
+import com.example.architechturestartercode.data.movie.datasource.remote.model.RemoteMovie
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,13 +15,13 @@ class FavViewModel @Inject constructor(private val moviesRepository: MoviesRepos
     val onDeleteFromFavSuccess: LiveData<Boolean>
         get() = _onDeleteFromFavSuccess
 
-    fun getFavMovies(): LiveData<List<Movie>> {
+    fun getFavMovies(): LiveData<List<RemoteMovie>> {
         return moviesRepository.getAllFavMovies()
     }
 
-    fun deleteFavMovie(movie: Movie) {
+    fun deleteFavMovie(remoteMovie: RemoteMovie) {
         viewModelScope.launch {
-            moviesRepository.deleteMovieFromFav(movie)
+            moviesRepository.deleteMovieFromFav(remoteMovie)
             _onDeleteFromFavSuccess.value = true
         }
     }

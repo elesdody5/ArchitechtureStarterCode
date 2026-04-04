@@ -53,7 +53,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.example.architechturestartercode.data.movie.model.Movie
+import com.example.architechturestartercode.data.movie.datasource.remote.model.RemoteMovie
 import com.example.architechturestartercode.presentation.allmovies.presenter.AllMoviesViewModel
 import com.example.architechturestartercode.presentation.allmovies.ui.ui.theme.ArchitechtureStarterCodeTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -88,7 +88,7 @@ class AllMoviesActivity : ComponentActivity() {
                 ) { innerPadding ->
                     val viewModel = hiltViewModel<AllMoviesViewModel>()
                     AllMoviesScreen(
-                        movies = viewModel.allMovies.value,
+                        remoteMovies = viewModel.allMovies.value,
                         isLoading = viewModel.isLoading,
                         error = viewModel.error.observeAsState().value ?: "",
                         addToFav = { viewModel.addToFav(it) }
@@ -102,10 +102,10 @@ class AllMoviesActivity : ComponentActivity() {
 @Composable
 fun AllMoviesScreen(
     modifier: Modifier = Modifier,
-    movies: List<Movie>,
+    remoteMovies: List<RemoteMovie>,
     isLoading: Boolean,
     error: String?,
-    addToFav: (Movie) -> Unit,
+    addToFav: (RemoteMovie) -> Unit,
 ) {
     Box(
         modifier = modifier.fillMaxSize()
@@ -155,7 +155,7 @@ fun AllMoviesScreen(
                 }
             }
 
-            movies.isEmpty() -> {
+            remoteMovies.isEmpty() -> {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -186,8 +186,8 @@ fun AllMoviesScreen(
                         vertical = 8.dp
                     )
                 ) {
-                    items(movies) { movie ->
-                        MovieItem(movie = movie, buttonLabel = "Add to Favorites") {
+                    items(remoteMovies) { movie ->
+                        MovieItem(remoteMovie = movie, buttonLabel = "Add to Favorites") {
                             addToFav(movie)
                         }
                     }
@@ -199,7 +199,7 @@ fun AllMoviesScreen(
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun MovieItem(movie: Movie, buttonLabel: String = "Favorite", onClick: (Movie) -> Unit) {
+fun MovieItem(remoteMovie: RemoteMovie, buttonLabel: String = "Favorite", onClick: (RemoteMovie) -> Unit) {
     val context = LocalContext.current
     Card(
         modifier = Modifier
@@ -217,8 +217,8 @@ fun MovieItem(movie: Movie, buttonLabel: String = "Favorite", onClick: (Movie) -
         ) {
             // Poster image with rounded corners
             GlideImage(
-                model = movie.fullPosterUrl,
-                contentDescription = movie.title,
+                model = remoteMovie.fullPosterUrl,
+                contentDescription = remoteMovie.title,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(width = 80.dp, height = 110.dp)
@@ -233,7 +233,7 @@ fun MovieItem(movie: Movie, buttonLabel: String = "Favorite", onClick: (Movie) -
                 verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 Text(
-                    text = movie.title,
+                    text = remoteMovie.title,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold,
                     maxLines = 2,
@@ -248,7 +248,7 @@ fun MovieItem(movie: Movie, buttonLabel: String = "Favorite", onClick: (Movie) -
                     modifier = Modifier.wrapContentSize()
                 ) {
                     Text(
-                        text = movie.language.uppercase(),
+                        text = remoteMovie.language.uppercase(),
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSecondaryContainer,
                         modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)
@@ -259,10 +259,10 @@ fun MovieItem(movie: Movie, buttonLabel: String = "Favorite", onClick: (Movie) -
 
                 Button(
                     onClick = {
-                        onClick(movie)
+                        onClick(remoteMovie)
                         Toast.makeText(
                             context,
-                            "${movie.title} $buttonLabel",
+                            "${remoteMovie.title} $buttonLabel",
                             Toast.LENGTH_SHORT
                         ).show()
                     },

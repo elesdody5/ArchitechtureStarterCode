@@ -1,8 +1,8 @@
 package com.example.architechturestartercode.presentation.favmovies.view
 
-import com.example.architechturestartercode.data.movie.model.Movie
+import com.example.architechturestartercode.data.movie.datasource.remote.model.RemoteMovie
 
 interface OnFavoriteClickListener {
-    fun deleteFromFav(movie: Movie)
+    fun deleteFromFav(remoteMovie: RemoteMovie)
 }
 

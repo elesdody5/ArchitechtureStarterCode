@@ -1,6 +1,6 @@
 package com.example.architechturestartercode.di
 
-import com.example.architechturestartercode.data.movie.IMoviesRepository
+import com.example.architechturestartercode.domin.movies.repo.IMoviesRepository
 import com.example.architechturestartercode.data.movie.MoviesRepositoryImp
 import dagger.Binds
 import dagger.Module

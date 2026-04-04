@@ -1,7 +1,7 @@
-package com.example.architechturestartercode.data.movie
+package com.example.architechturestartercode.domin.movies.repo
 
 import androidx.lifecycle.LiveData
-import com.example.architechturestartercode.data.movie.model.Movie
+import com.example.architechturestartercode.domin.movies.model.Movie
 
 interface IMoviesRepository {
     suspend fun getAllMovies(): Result<List<Movie>>

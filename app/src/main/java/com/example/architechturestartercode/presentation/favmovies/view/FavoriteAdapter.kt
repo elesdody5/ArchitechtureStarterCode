@@ -11,13 +11,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.architechturestartercode.R
-import com.example.architechturestartercode.data.movie.model.Movie
+import com.example.architechturestartercode.data.movie.datasource.remote.model.RemoteMovie
 
 class FavoriteAdapter(
     private val listener: OnFavoriteClickListener
 ) : RecyclerView.Adapter<FavoriteAdapter.ViewHolder>() {
 
-    private var movies: List<Movie> = ArrayList()
+    private var remoteMovies: List<RemoteMovie> = ArrayList()
 
     companion object {
         const val TAG = "FavoriteAdapter"
@@ -35,14 +35,14 @@ class FavoriteAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val movie = movies[position]
+        val movie = remoteMovies[position]
         holder.bind(movie)
     }
 
-    override fun getItemCount(): Int = movies.size
+    override fun getItemCount(): Int = remoteMovies.size
 
-    fun setList(updatedMovies: List<Movie>) {
-        this.movies = updatedMovies
+    fun setList(updatedRemoteMovies: List<RemoteMovie>) {
+        this.remoteMovies = updatedRemoteMovies
         notifyDataSetChanged()
     }
 
@@ -53,15 +53,15 @@ class FavoriteAdapter(
         private val removeFavBtn: Button = itemView.findViewById(R.id.btn_fav_delete)
         private val layout: ConstraintLayout = itemView.findViewById(R.id.constraint_fav_movie)
 
-        fun bind(movie: Movie) {
-            favMovieCategory.text = movie.title
-            favMovieName.text = movie.language
+        fun bind(remoteMovie: RemoteMovie) {
+            favMovieCategory.text = remoteMovie.title
+            favMovieName.text = remoteMovie.language
             Glide.with(itemView)
-                .load(movie.fullPosterUrl)
+                .load(remoteMovie.fullPosterUrl)
                 .centerCrop()
                 .into(favMovieImg)
             removeFavBtn.setOnClickListener {
-                listener.deleteFromFav(movie)
+                listener.deleteFromFav(remoteMovie)
             }
         }
     }

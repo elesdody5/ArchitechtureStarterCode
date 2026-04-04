@@ -8,18 +8,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.architechturestartercode.data.movie.IMoviesRepository
-import com.example.architechturestartercode.data.movie.model.Movie
+import com.example.architechturestartercode.domin.movies.repo.IMoviesRepository
 import com.example.architechturestartercode.di.DefaultDispatcher
+import com.example.architechturestartercode.domin.movies.model.Movie
+import com.example.architechturestartercode.domin.movies.usecase.GetAllMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AllMoviesViewModel @Inject constructor(
-    private val moviesRepository: IMoviesRepository,
+    private val getAllMoviesUseCase: GetAllMoviesUseCase,
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
@@ -46,7 +46,7 @@ class AllMoviesViewModel @Inject constructor(
     fun getAllMovies() {
         isLoading = true
         viewModelScope.launch {
-            val result = moviesRepository.getAllMovies()
+            val result = getAllMoviesUseCase()
             result.onSuccess {
                 isLoading = false
                 _allMovies.value = it
@@ -57,10 +57,10 @@ class AllMoviesViewModel @Inject constructor(
         }
     }
 
-    fun addToFav(movie: Movie) {
+    fun addToFav(Movie: Movie) {
         viewModelScope.launch {
             try {
-                moviesRepository.insertMovieToFav(movie)
+                moviesRepository.insertMovieToFav(Movie)
                 _addedToFavSuccess.value = true
             } catch (e: Exception) {
                 _addedToFavSuccess.value = false
